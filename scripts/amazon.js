@@ -1,4 +1,8 @@
+import { cart } from "../data/cart.js";
+import { products } from "../data/products.js";
+
 let productsHTML = "";
+let timeoutId;
 
 products.forEach((product) => {
   productsHTML += `
@@ -24,7 +28,9 @@ products.forEach((product) => {
             }</div>
         </div>
 
-        <div class="product-price">$${product.priceCents / 100}</div>
+        <div class="product-price">$${(product.priceCents / 100).toFixed(
+          2
+        )}</div>
 
         <div class="product-quantity-container">
             <select class="js-product-selector-${product.id}">
@@ -43,7 +49,7 @@ products.forEach((product) => {
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart">
+        <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png" />
             Added
         </div>
@@ -58,6 +64,7 @@ document.querySelector(".products-grid").innerHTML = productsHTML;
 
 document.querySelectorAll(".js-add-to-cart-btn").forEach((button) => {
   button.addEventListener("click", () => {
+    clearTimeout(timeoutId);
     const { productId } = button.dataset;
     let matchingItem;
     const quantity = Number(
@@ -84,5 +91,14 @@ document.querySelectorAll(".js-add-to-cart-btn").forEach((button) => {
       cartQuantity += item.quantity;
     });
     document.querySelector(".js-cart-quantity").innerText = cartQuantity;
+
+    const addedToCartElement = document.querySelector(
+      `.js-added-to-cart-${productId}`
+    );
+    addedToCartElement.classList.add("added-to-cart-enabled");
+
+    timeoutId = setTimeout(() => {
+      addedToCartElement.classList.remove("added-to-cart-enabled");
+    }, 2000);
   });
 });
