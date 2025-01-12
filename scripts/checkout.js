@@ -8,12 +8,17 @@ import { loadProducts, loadProductsFetch } from "../data/products.js";
 const cartObj = new Cart("cart-test");
 
 async function loadPage() {
-  await loadProductsFetch();
-  await new Promise((resolve) => {
-    cartObj.loadCart(() => {
-      resolve();
+  try {
+    await loadProductsFetch();
+    await new Promise((resolve, reject) => {
+      throw "error";
+      cartObj.loadCart(() => {
+        resolve();
+      });
     });
-  });
+  } catch (error) {
+    console.log(error);
+  }
 
   RenderCheckOutHeader();
   RenderOrderSummary();
