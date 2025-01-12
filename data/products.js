@@ -470,3 +470,15 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ];
+
+export function getItemPrice(id) {
+  let matchingProduct;
+
+  products.forEach((product) => {
+    if (id === product.id) {
+      matchingProduct = product;
+    }
+  });
+
+  return matchingProduct.priceCents;
+}
