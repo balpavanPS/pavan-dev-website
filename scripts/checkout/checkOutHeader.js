@@ -1,5 +1,8 @@
-import { cart } from "../../data/cart.js";
+// import { cart } from "../../data/cart.js";
+import Cart from "../../data/cart-class.js";
 export default function RenderCheckOutHeader() {
+  const cartObj = new Cart("cart");
+  const cart = cartObj.cartItems;
   let html = "";
   let checkOutItems = cart.length;
   //   console.log(checkOutItems);

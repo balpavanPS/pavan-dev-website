@@ -1,9 +1,12 @@
-import { cart } from "../../data/cart.js";
+// import { cart } from "../../data/cart.js";
+import Cart from "../../data/cart-class.js";
 import { getItemPrice } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 
 export default function RenderPaymentSummary() {
+  const cartObj = new Cart("cart");
+  const cart = cartObj.cartItems;
   let totalItems = 0;
   let html = "";
   let totalItemsPrice = 0;

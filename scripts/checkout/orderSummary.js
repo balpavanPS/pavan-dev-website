@@ -1,4 +1,5 @@
-import { cart, removeCartItem, updateDeliveryOption } from "../../data/cart.js";
+// import { cart, removeCartItem, updateDeliveryOption } from "../../data/cart.js";
+import Cart from "../../data/cart-class.js";
 import { products } from "../../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
@@ -8,6 +9,9 @@ import RenderCheckOutHeader from "./checkOutHeader.js";
 
 export default function RenderOrderSummary() {
   let checkoutHTML = "";
+
+  const cartObj = new Cart("cart");
+  const cart = cartObj.cartItems;
 
   cart.forEach((cartItem) => {
     let matchingProduct;
@@ -78,7 +82,7 @@ export default function RenderOrderSummary() {
   document.querySelectorAll(".js-delete-quantity-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productID = link.dataset.productId;
-      removeCartItem(productID);
+      cartObj.removeCartItem(productID);
       const container = document.querySelector(
         `.js-cart-item-container-${productID}`
       );
@@ -128,7 +132,7 @@ export default function RenderOrderSummary() {
   document.querySelectorAll(".js-delivery-option").forEach((element) => {
     element.addEventListener("click", () => {
       const { productId, deliveryOptionId } = element.dataset;
-      updateDeliveryOption(productId, deliveryOptionId);
+      cartObj.updateDeliveryOption(productId, deliveryOptionId);
       RenderOrderSummary();
       RenderPaymentSummary();
     });
