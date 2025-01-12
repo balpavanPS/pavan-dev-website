@@ -1,12 +1,53 @@
 import RenderOrderSummary from "./checkout/orderSummary.js";
 import RenderPaymentSummary from "./checkout/paymentSummary.js";
 import RenderCheckOutHeader from "./checkout/checkOutHeader.js";
-import "../data/cart-class.js";
+import Cart from "../data/cart-class.js";
 // import "../data/backend-practice.js";
 import { loadProducts } from "../data/products.js";
 
-loadProducts(() => {
+const cartObj = new Cart("cart-test");
+
+Promise.all([
+  new Promise((resolve) => {
+    loadProducts(() => {
+      resolve();
+    });
+  }),
+  new Promise((resolve) => {
+    cartObj.loadCart(() => {
+      resolve();
+    });
+  }),
+]).then(() => {
   RenderCheckOutHeader();
   RenderOrderSummary();
   RenderPaymentSummary();
 });
+/*
+new Promise((resolve) => {
+  loadProducts(() => {
+    resolve();
+  });
+})
+  .then(() => {
+    return new Promise((resolve) => {
+      cartObj.loadCart(() => {
+        resolve();
+      });
+    });
+  })
+  .then(() => {
+    RenderCheckOutHeader();
+    RenderOrderSummary();
+    RenderPaymentSummary();
+  });
+*/
+/*
+loadProducts(() => {
+  cartObj.loadCart(() => {
+    RenderCheckOutHeader();
+    RenderOrderSummary();
+    RenderPaymentSummary();
+  });
+});
+*/
