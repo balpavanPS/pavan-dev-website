@@ -7,6 +7,20 @@ import { loadProducts, loadProductsFetch } from "../data/products.js";
 
 const cartObj = new Cart("cart-test");
 
+async function loadPage() {
+  await loadProductsFetch();
+  await new Promise((resolve) => {
+    cartObj.loadCart(() => {
+      resolve();
+    });
+  });
+
+  RenderCheckOutHeader();
+  RenderOrderSummary();
+  RenderPaymentSummary();
+}
+loadPage();
+/*
 Promise.all([
   loadProductsFetch(),
   new Promise((resolve) => {
@@ -19,6 +33,7 @@ Promise.all([
   RenderOrderSummary();
   RenderPaymentSummary();
 });
+*/
 /*
 new Promise((resolve) => {
   loadProducts(() => {
