@@ -3,16 +3,12 @@ import RenderPaymentSummary from "./checkout/paymentSummary.js";
 import RenderCheckOutHeader from "./checkout/checkOutHeader.js";
 import Cart from "../data/cart-class.js";
 // import "../data/backend-practice.js";
-import { loadProducts } from "../data/products.js";
+import { loadProducts, loadProductsFetch } from "../data/products.js";
 
 const cartObj = new Cart("cart-test");
 
 Promise.all([
-  new Promise((resolve) => {
-    loadProducts(() => {
-      resolve();
-    });
-  }),
+  loadProductsFetch(),
   new Promise((resolve) => {
     cartObj.loadCart(() => {
       resolve();
