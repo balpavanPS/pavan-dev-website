@@ -82,8 +82,8 @@ export default function RenderOrderSummary() {
       if (container) {
         container.remove();
       }
-      console.log(productID);
-      console.log(cart);
+
+      RenderPaymentSummary();
     });
   });
 
