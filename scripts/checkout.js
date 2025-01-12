@@ -4,53 +4,6 @@ import { formatCurrency } from "./utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
 
-// function rendorCheckOutOrderSummary() {
-
-// const today = dayjs();
-// const deliveryDate = today.add(7, "days");
-// console.log(deliveryDate.format("dddd, MMMM D"));
-
-function rendorDeliveryOptions(matchingProduct, cartItem) {
-  let html = "";
-
-  deliveryOptions.forEach((option) => {
-    const today = dayjs();
-    const deliveryDate = today.add(option.deliveryDays, "days");
-    const dateString = deliveryDate.format("dddd, MMMM D");
-    const priceString =
-      option.priceCents === 0
-        ? "FREE"
-        : `$${formatCurrency(option.priceCents)} -`;
-
-    // console.log(
-    //   "option.deliveryId: " +
-    //     option.deliveryOptionId +
-    //     " cartItem.deliveryId: " +
-    //     cartItem.deliveryOptionId
-    // );
-
-    const isChecked = option.deliveryOptionId === cartItem.deliveryOptionId;
-    html += `
-    <div class="delivery-option js-delivery-option"
-    data-product-id = "${matchingProduct.id}"
-    data-delivery-option-id = "${cartItem.deliveryOptionId}">
-        <input
-        ${isChecked ? "checked" : ""}
-        type="radio"
-        class="delivery-option-input"
-        name="delivery-option-${matchingProduct.id}"
-        />
-        <div>
-        <div class="delivery-option-date">${dateString}</div>
-        <div class="delivery-option-price">${priceString} Shipping</div>
-        </div>
-    </div>
-    `;
-  });
-
-  return html;
-}
-
 let checkoutHTML = "";
 
 cart.forEach((cartItem) => {
@@ -116,10 +69,7 @@ cart.forEach((cartItem) => {
               </div>`;
 });
 document.querySelector(".js-order-summary").innerHTML = checkoutHTML;
-//   handleDeleteEvent();
-// }
 
-// function handleDeleteEvent() {
 document.querySelectorAll(".js-delete-quantity-link").forEach((link) => {
   link.addEventListener("click", () => {
     const productID = link.dataset.productId;
@@ -132,12 +82,42 @@ document.querySelectorAll(".js-delete-quantity-link").forEach((link) => {
     }
     console.log(productID);
     console.log(cart);
-    //cart ? rendorCheckOutOrderSummary() : "No Items to display";
   });
 });
-// }
 
-//rendorCheckOutOrderSummary();
+function rendorDeliveryOptions(matchingProduct, cartItem) {
+  let html = "";
+
+  deliveryOptions.forEach((option) => {
+    const today = dayjs();
+    const deliveryDate = today.add(option.deliveryDays, "days");
+    const dateString = deliveryDate.format("dddd, MMMM D");
+    const priceString =
+      option.priceCents === 0
+        ? "FREE"
+        : `$${formatCurrency(option.priceCents)} -`;
+
+    const isChecked = option.deliveryOptionId === cartItem.deliveryOptionId;
+    html += `
+      <div class="delivery-option js-delivery-option"
+      data-product-id = "${matchingProduct.id}"
+      data-delivery-option-id = "${option.deliveryOptionId}">
+          <input
+          ${isChecked ? "checked" : ""}
+          type="radio"
+          class="delivery-option-input"
+          name="delivery-option-${matchingProduct.id}"
+          />
+          <div>
+          <div class="delivery-option-date">${dateString}</div>
+          <div class="delivery-option-price">${priceString} Shipping</div>
+          </div>
+      </div>
+      `;
+  });
+
+  return html;
+}
 
 document.querySelectorAll(".js-delivery-option").forEach((element) => {
   element.addEventListener("click", () => {
