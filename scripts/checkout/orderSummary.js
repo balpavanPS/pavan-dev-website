@@ -47,16 +47,18 @@ export default function RenderOrderSummary() {
                       <div class="product-price">$${formatCurrency(
                         matchingProduct.priceCents
                       )}</div>
-                      <div class="product-quantity">
+                      <div class="product-quantity js-product-quantity-${
+                        matchingProduct.id
+                      }">
                         <span> Quantity: <span class="quantity-label">${
                           cartItem.quantity
                         }</span> </span>
                         <span class="update-quantity-link link-primary">
                           Update
                         </span>
-                        <span class="delete-quantity-link link-primary js-delete-quantity-link" data-product-id = ${
+                        <span class="delete-quantity-link link-primary js-delete-quantity-link js-delete-quantity-link-${
                           matchingProduct.id
-                        }>
+                        }" data-product-id = ${matchingProduct.id}>
                           Delete
                         </span>
                       </div>
